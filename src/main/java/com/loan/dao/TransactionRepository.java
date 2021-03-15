@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.loan.entity.Transaction;
 
 @Repository
-public interface TransactionRepository extends JpaRepository<Transaction, Integer> {
+public interface TransactionRepository extends PagingAndSortingRepository<Transaction, Integer> {
 	
 	@Query("select t from Transaction t where t.id=?1")
 	List<Transaction> getTransById(int id);

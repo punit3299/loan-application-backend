@@ -4,6 +4,8 @@ import org.apache.log4j.Logger;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.loan.entity.Customer;
@@ -60,8 +63,9 @@ public class LoanController {
 	// Fetching all Customers
 
 	@GetMapping("/all")
-	public Iterable<Customer> getAllCustomers() {
-		return service.getAllCustomers();
+	public Iterable<Customer> getAllCustomers(@RequestParam("page") int pageNo, @RequestParam("size") int pageSize) {
+		Pageable pageable = PageRequest.of(pageNo, pageSize);
+		return service.getAllCustomers(pageable);
 	}
 
 	// Customer Login
@@ -70,15 +74,10 @@ public class LoanController {
 	public Integer verifyLogin(@RequestBody Customer c) {
 
 		Integer id = null;
-		boolean idFound = false;
-		for (Customer cust : service.getAllCustomers()) {
-			if (cust.getEmail().equals(c.getEmail()) && cust.getPassword().equals(c.getPassword())) {
-				id = cust.getId();
-				idFound = true;
-				break;
-			}
-		}
-		if (idFound) {
+
+		id = service.verifyLogin(c);
+
+		if (id != null) {
 			logger.info("Logged_In_Successfully");
 			return id;
 		} else {
