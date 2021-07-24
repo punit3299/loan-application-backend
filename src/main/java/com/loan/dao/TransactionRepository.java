@@ -11,8 +11,8 @@ import com.loan.entity.Transaction;
 
 @Repository
 public interface TransactionRepository extends PagingAndSortingRepository<Transaction, Integer> {
-	
-	@Query("select t from Transaction t where t.id=?1")
-	List<Transaction> getTransById(int id);
-	
+
+	@Query("select t from Transaction t inner join Loan l on l.loanId=t.loan.loanId where l.customer.id=?1")
+	List<Transaction> findTransactionsByCustomerId(int custId);
+
 }

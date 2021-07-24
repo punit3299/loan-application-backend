@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,160 +21,52 @@ import com.loan.entity.Customer;
 import com.loan.entity.Loan;
 import com.loan.entity.Transaction;
 import com.loan.exceptions.LoanNotFoundException;
-import com.loan.service.LoanService;
+import com.loan.service.LoanServiceImpl;
+import com.loan.service.iLoanService;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/loan")
 @CrossOrigin(origins = "*")
 public class LoanController {
 
-	@Autowired
-	private LoanService service;
+	@Autowired(required = true)
+	private iLoanService loanService;
 
 	private Logger logger = Logger.getLogger(getClass());
 
-	// Adding Customer
-
-	@PostMapping("/signup")
-	public Customer addCustomer(@RequestBody Customer c) {
-		Customer cust = service.addCustomer(c);
-		if (cust != null) {
-			logger.info("Customer_Registered_Successfully");
-			return cust;
-		} else {
-			logger.error("Customer_Registration_Failed");
-			return null;
-		}
-	}
-
-	// Updating Customer
-
-	@PutMapping("/updateCust")
-	public Customer updateCustomer(@RequestBody Customer c) {
-		Customer cust = service.updateCustomer(c);
-		if (cust != null) {
-			logger.info("Customer_Updated_Successfully");
-			return cust;
-		} else {
-			logger.error("Customer_Updation_Failed");
-			return null;
-		}
-	}
-
-	// Fetching all Customers
-
-	@GetMapping("/all")
-	public Iterable<Customer> getAllCustomers(@RequestParam("page") int pageNo, @RequestParam("size") int pageSize) {
-		Pageable pageable = PageRequest.of(pageNo, pageSize);
-		return service.getAllCustomers(pageable);
-	}
-
-	// Customer Login
-
-	@PostMapping("/login")
-	public Integer verifyLogin(@RequestBody Customer c) {
-
-		Integer id = null;
-
-		id = service.verifyLogin(c);
-
-		if (id != null) {
-			logger.info("Logged_In_Successfully");
-			return id;
-		} else {
-			logger.error("Login_Failed");
-			return 0;
-		}
-	}
-
-	// Fetching Customer By Customer Id
-
-	@GetMapping("/main/{id}")
-	public Customer getCustomerById(@PathVariable int id) {
-
-		return service.getCustomerById(id);
-	}
-
 	// Applying Loan
 
-	@PostMapping("/loan")
+	@PostMapping("/")
 	public Loan applyLoan(@RequestBody Loan loan) {
 
-		Loan l = service.applyLoan(loan);
+		Loan l = loanService.applyLoan(loan);
 		if (l != null) {
-			logger.info("Loan_Applied_Successfully");
+			logger.info("Loan Applied Successfully");
 			return l;
 		} else {
-			logger.info("Failed_To_Apply_Loan");
+			logger.info("Loan Application Failed");
 			return null;
 		}
 	}
 
 	// Fetching Loans by Customer Id
 
-	@GetMapping("/getLoans/{id}")
+	@GetMapping("/customer/{id}")
 	public List<Loan> getLoansByCustId(@PathVariable int id) {
-
-		List<Loan> list = service.getLoansByCustId(id);
-		if (list != null) {
-			return list;
-		} else {
-			logger.error("Failed_To_Get_Loan_Details");
-			return null;
-		}
-	}
-
-	// Adding Transaction
-
-	@PostMapping("/addTrans")
-	public Transaction addTransaction(@RequestBody Transaction trans) {
-		Transaction t = service.addTransaction(trans);
-		if (t != null) {
-			logger.info("Transaction_Successfull");
-			return t;
-		} else {
-			logger.info("Transaction_Failed");
-			return null;
-		}
-
-	}
-
-	// Fetching Transactions by Customer Id
-
-	@GetMapping("/getTrans/{id}")
-	public List<Transaction> getTransByCustId(@PathVariable int id) {
-
-		List<Transaction> list = service.getTransByCustId(id);
-		if (list != null) {
-			return list;
-		} else {
-			logger.error("Failed_To_Get_Transaction_Details");
-			return null;
-		}
+		return loanService.getLoansByCustId(id);
 	}
 
 	// Account Foreclosure
 
-	@PostMapping("/forecloseAcct/{loanId}")
-	public void forecloseAccount(@PathVariable int loanId) {
-		if (service.getLoanById(loanId).isPresent()) {
-			service.deleteLoanById(loanId);
-			logger.info("Loan_Foreclosed_Successfully");
+	@DeleteMapping("/foreclose/{loanId}")
+	public void forecloseLoan(@PathVariable int loanId) {
+		Loan loan = loanService.getLoanById(loanId);
+		if (loan != null) {
+			loanService.deleteLoanById(loanId);
+			logger.info("Loan Foreclosed Successfully");
 		} else {
-			logger.error("Loan_Foreclosure_Unsuccessful");
+			logger.error("Loan Foreclosure Unsuccessful");
 			throw new LoanNotFoundException("Loan not Found");
-		}
-	}
-
-	// Send Mail
-
-	@PostMapping("/mail")
-	public void sendMail(@RequestBody String email) {
-		try {
-			service.sendJavaMail(email);
-			logger.info("Mail_Sent_Successfully");
-		} catch (Exception e) {
-			logger.error("Something went wrong. You may have wrong credentials in application.properties.");
 		}
 	}
 
