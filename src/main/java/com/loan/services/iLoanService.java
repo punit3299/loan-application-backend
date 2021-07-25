@@ -1,13 +1,13 @@
-package com.loan.service;
+package com.loan.services;
 
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 
-import com.loan.entity.Customer;
-import com.loan.entity.Loan;
-import com.loan.entity.Transaction;
+import com.loan.models.Customer;
+import com.loan.models.Loan;
+import com.loan.models.Transaction;
 
 public interface iLoanService {
 

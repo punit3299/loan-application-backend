@@ -1,4 +1,4 @@
-package com.loan.service;
+package com.loan.services;
 
 public interface iMailService {
 	

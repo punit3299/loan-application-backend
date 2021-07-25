@@ -1,4 +1,4 @@
-package com.loan.controller;
+package com.loan.controllers;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.loan.entity.Customer;
-import com.loan.service.iCustomerService;
+import com.loan.models.Customer;
+import com.loan.services.iCustomerService;
 
 @RestController
 @RequestMapping("/customer")
@@ -27,7 +27,7 @@ public class CustomerController {
 
 	private Logger logger = Logger.getLogger(getClass());
 
-	@PostMapping("/")
+	@PostMapping
 	public Customer addCustomer(@RequestBody Customer c) {
 		Customer cust = customerService.addCustomer(c);
 		if (cust != null) {
@@ -41,7 +41,7 @@ public class CustomerController {
 
 	// Updating Customer
 
-	@PutMapping("/")
+	@PutMapping
 	public Customer updateCustomer(@RequestBody Customer c) {
 		Customer cust = customerService.updateCustomer(c);
 		if (cust != null) {
@@ -55,7 +55,7 @@ public class CustomerController {
 
 	// Fetching all Customers
 
-	@GetMapping("/")
+	@GetMapping
 	public Iterable<Customer> getAllCustomers(@RequestParam("page") int pageNo, @RequestParam("size") int pageSize) {
 		Pageable pageable = PageRequest.of(pageNo, pageSize);
 		return customerService.getAllCustomers(pageable);

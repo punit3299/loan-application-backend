@@ -1,4 +1,4 @@
-package com.loan.service;
+package com.loan.services.impl;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,8 +7,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.loan.dao.CustomerRepository;
-import com.loan.entity.Customer;
-import com.loan.exceptions.UserNotFoundException;
+import com.loan.exceptions.CustomerNotFoundException;
+import com.loan.models.Customer;
+import com.loan.services.iCustomerService;
 
 @Service
 @Primary
@@ -16,7 +17,7 @@ public class CustomerServiceImpl implements iCustomerService {
 
 	@Autowired
 	private CustomerRepository customerDao;
-	
+
 	private Logger logger = Logger.getLogger(getClass());
 
 	@Override
@@ -28,7 +29,7 @@ public class CustomerServiceImpl implements iCustomerService {
 		else
 			return null;
 	}
-	
+
 	@Override
 	public Integer verifyLogin(Customer c) {
 		for (Customer cust : customerDao.findAll()) {
@@ -53,8 +54,8 @@ public class CustomerServiceImpl implements iCustomerService {
 		if (customerDao.findById(custId).isPresent()) {
 			return customerDao.findById(custId).get();
 		} else {
-			logger.error("User_Not_Found");
-			throw new UserNotFoundException("User Not Found");
+			logger.error("Customer Not Found with Id: " + custId);
+			throw new CustomerNotFoundException("User Not Found");
 		}
 	}
 

@@ -7,8 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
-import com.loan.entity.Customer;
-import com.loan.entity.Loan;
+import com.loan.models.Customer;
+import com.loan.models.Loan;
 
 @Repository
 public interface LoanRepository extends PagingAndSortingRepository<Loan, Integer> {

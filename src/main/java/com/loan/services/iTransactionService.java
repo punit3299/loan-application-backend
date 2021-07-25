@@ -1,8 +1,8 @@
-package com.loan.service;
+package com.loan.services;
 
 import java.util.List;
 
-import com.loan.entity.Transaction;
+import com.loan.models.Transaction;
 
 public interface iTransactionService {
 

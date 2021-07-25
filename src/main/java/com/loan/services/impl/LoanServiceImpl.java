@@ -1,4 +1,4 @@
-package com.loan.service;
+package com.loan.services.impl;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,10 +15,11 @@ import org.springframework.stereotype.Service;
 import com.loan.dao.CustomerRepository;
 import com.loan.dao.LoanRepository;
 import com.loan.dao.TransactionRepository;
-import com.loan.entity.Customer;
-import com.loan.entity.Loan;
-import com.loan.entity.Transaction;
-import com.loan.exceptions.UserNotFoundException;
+import com.loan.exceptions.CustomerNotFoundException;
+import com.loan.models.Customer;
+import com.loan.models.Loan;
+import com.loan.models.Transaction;
+import com.loan.services.iLoanService;
 
 @Service
 @Primary
@@ -40,7 +41,7 @@ public class LoanServiceImpl implements iLoanService {
 			return loanDao.save(loan);
 		} else {
 			logger.error("User Not Found");
-			throw new UserNotFoundException("User Not Found");
+			throw new CustomerNotFoundException("User Not Found");
 		}
 	}
 
@@ -51,7 +52,7 @@ public class LoanServiceImpl implements iLoanService {
 			return customer.get().getLoans();
 		} else {
 			logger.error("User Not Found");
-			throw new UserNotFoundException("User Not Found");
+			throw new CustomerNotFoundException("User Not Found");
 		}
 	}
 

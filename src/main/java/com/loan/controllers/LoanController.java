@@ -1,4 +1,4 @@
-package com.loan.controller;
+package com.loan.controllers;
 
 import org.apache.log4j.Logger;
 import java.util.List;
@@ -17,12 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.loan.entity.Customer;
-import com.loan.entity.Loan;
-import com.loan.entity.Transaction;
 import com.loan.exceptions.LoanNotFoundException;
-import com.loan.service.LoanServiceImpl;
-import com.loan.service.iLoanService;
+import com.loan.models.Customer;
+import com.loan.models.Loan;
+import com.loan.models.Transaction;
+import com.loan.services.iLoanService;
+import com.loan.services.impl.LoanServiceImpl;
 
 @RestController
 @RequestMapping("/loan")

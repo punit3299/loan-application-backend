@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
-import com.loan.entity.Customer;
+import com.loan.models.Customer;
 
 @Repository
 public interface CustomerRepository extends PagingAndSortingRepository<Customer, Integer> {

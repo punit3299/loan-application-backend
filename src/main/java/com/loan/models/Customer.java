@@ -1,4 +1,4 @@
-package com.loan.entity;
+package com.loan.models;
 
 import java.io.Serializable;
 import java.util.ArrayList;

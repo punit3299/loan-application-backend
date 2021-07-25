@@ -1,8 +1,8 @@
-package com.loan.service;
+package com.loan.services;
 
 import org.springframework.data.domain.Pageable;
 
-import com.loan.entity.Customer;
+import com.loan.models.Customer;
 
 public interface iCustomerService {
 
