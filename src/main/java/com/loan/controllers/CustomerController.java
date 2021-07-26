@@ -1,9 +1,13 @@
 package com.loan.controllers;
 
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,62 +31,39 @@ public class CustomerController {
 
 	private Logger logger = Logger.getLogger(getClass());
 
+	// Adding Customer
+
 	@PostMapping
-	public Customer addCustomer(@RequestBody Customer c) {
-		Customer cust = customerService.addCustomer(c);
-		if (cust != null) {
-			logger.info("Customer Registered Successfully");
-			return cust;
-		} else {
-			logger.error("Customer Registration Failed");
-			return null;
-		}
+	public ResponseEntity<Customer> addCustomer(@RequestBody Customer c) {
+		return new ResponseEntity<Customer>(customerService.addCustomer(c), HttpStatus.OK);
 	}
 
 	// Updating Customer
 
 	@PutMapping
-	public Customer updateCustomer(@RequestBody Customer c) {
-		Customer cust = customerService.updateCustomer(c);
-		if (cust != null) {
-			logger.info("Customer Updated Successfully");
-			return cust;
-		} else {
-			logger.error("Customer Updation Failed");
-			return null;
-		}
+	public ResponseEntity<Customer> updateCustomer(@RequestBody Customer c) {
+		return new ResponseEntity<Customer>(customerService.updateCustomer(c), HttpStatus.OK);
 	}
 
 	// Fetching all Customers
 
 	@GetMapping
-	public Iterable<Customer> getAllCustomers(@RequestParam("page") int pageNo, @RequestParam("size") int pageSize) {
-		Pageable pageable = PageRequest.of(pageNo, pageSize);
-		return customerService.getAllCustomers(pageable);
+	public ResponseEntity<List<Customer>> getCustomers(@RequestParam("page") int pageNumber,
+			@RequestParam("size") int pageSize) {
+		return new ResponseEntity<List<Customer>>(customerService.getCustomers(pageNumber, pageSize), HttpStatus.OK);
 	}
 
 	// Customer Login
 
 	@PostMapping("/login")
-	public Integer verifyLogin(@RequestBody Customer c) {
-
-		Integer id = null;
-
-		id = customerService.verifyLogin(c);
-
-		if (id != null) {
-			logger.info("Logged In Successfully");
-			return id;
-		} else {
-			logger.error("Login Failed");
-			return 0;
-		}
+	public ResponseEntity<Integer> doLogin(@RequestParam String email, @RequestParam String password) {
+		return new ResponseEntity<Integer>(customerService.doLogin(email, password), HttpStatus.OK);
 	}
 
 	// Fetching Customer By Customer Id
 
 	@GetMapping("/{id}")
-	public Customer getCustomer(@PathVariable int id) {
-		return customerService.getCustomerById(id);
+	public ResponseEntity<Customer> getCustomer(@PathVariable int id) {
+		return new ResponseEntity<Customer>(customerService.getCustomerById(id), HttpStatus.OK);
 	}
 }

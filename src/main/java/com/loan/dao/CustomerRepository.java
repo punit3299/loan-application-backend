@@ -13,12 +13,11 @@ import com.loan.models.Customer;
 public interface CustomerRepository extends PagingAndSortingRepository<Customer, Integer> {
 
 	Page<Customer> findAll(Pageable pageable);
-	
+
 	@Query("select c from Customer c where c.email=?1 or c.adhaar=?2 or c.pan=?3 or c.phone=?4")
-	Customer checkCustomer(String email,long adhaar,String pan,long phone);
+	Customer checkCustomer(String email, long adhaar, String pan, long phone);
+
+	@Query("select c.id from Customer c where c.email=?1 and c.password=?2")
+	Integer findCustomerByEmailAndPassword(String email, String password);
 
 }
-
-
-
-

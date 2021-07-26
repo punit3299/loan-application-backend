@@ -18,6 +18,7 @@ public class MailExceptionsHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(MailException.class)
 	public ResponseEntity<Object> handleMailException(MailException ex, WebRequest request) {
+		logger.error(ex.getMessage(), ex);
 		Map<String, Object> body = new LinkedHashMap<>();
 		body.put("timestamp", LocalDateTime.now());
 		body.put("message", ex.getMessage());

@@ -45,7 +45,6 @@ public class TransactionServiceImpl implements iTransactionService {
 		try {
 			return transactionDao.save(transaction);
 		} catch (Exception e) {
-			logger.error("Transaction Failed for Loan Id: " + loanId, e);
 			throw new TransactionFailedException("Transaction Failed for LoanId: " + loanId);
 		}
 	}
@@ -58,7 +57,6 @@ public class TransactionServiceImpl implements iTransactionService {
 			List<Transaction> transactions = transactionDao.findTransactionsByCustomerId(customerId);
 			return transactions;
 		} catch (Exception e) {
-			logger.error("Transactions not Found for Customer Id: " + customerId, e);
 			throw new TransactionsNotFoundException("Transactions not Found for Customer Id: " + customerId);
 		}
 	}

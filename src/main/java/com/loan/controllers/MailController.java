@@ -1,6 +1,8 @@
 package com.loan.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,12 +16,13 @@ import com.loan.services.iMailService;
 @CrossOrigin(origins = "*")
 public class MailController {
 
-	@Autowired
+	@Autowired(required = true)
 	private iMailService mailService;
 
 	@PostMapping
-	public void sendMail(@RequestParam String email) {
+	public ResponseEntity<String> sendMail(@RequestParam String email) {
 		mailService.sendMail(email);
+		return new ResponseEntity<String>("Mail Sent to: " + email, HttpStatus.OK);
 	}
 
 }

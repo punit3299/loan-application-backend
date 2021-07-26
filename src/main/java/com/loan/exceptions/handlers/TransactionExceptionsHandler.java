@@ -19,6 +19,7 @@ public class TransactionExceptionsHandler extends ResponseEntityExceptionHandler
 
 	@ExceptionHandler(TransactionFailedException.class)
 	public ResponseEntity<Object> handleTransactionFailedException(TransactionFailedException ex, WebRequest request) {
+		logger.error(ex.getMessage(), ex);
 		Map<String, Object> body = new LinkedHashMap<>();
 		body.put("timestamp", LocalDateTime.now());
 		body.put("message", ex.getMessage());
@@ -28,6 +29,7 @@ public class TransactionExceptionsHandler extends ResponseEntityExceptionHandler
 	@ExceptionHandler(TransactionsNotFoundException.class)
 	public ResponseEntity<Object> handleTransactionsNotFoundException(TransactionsNotFoundException ex,
 			WebRequest request) {
+		logger.error(ex.getMessage(), ex);
 		Map<String, Object> body = new LinkedHashMap<>();
 		body.put("timestamp", LocalDateTime.now());
 		body.put("message", ex.getMessage());

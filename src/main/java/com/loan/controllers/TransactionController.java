@@ -2,7 +2,6 @@ package com.loan.controllers;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +21,7 @@ import com.loan.services.iTransactionService;
 @CrossOrigin(origins = "*")
 public class TransactionController {
 
-	@Autowired
+	@Autowired(required = true)
 	private iTransactionService transactionService;
 
 	@PostMapping("/")

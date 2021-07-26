@@ -1,18 +1,18 @@
 package com.loan.services;
 
-import org.springframework.data.domain.Pageable;
+import java.util.List;
 
 import com.loan.models.Customer;
 
 public interface iCustomerService {
 
-	public Integer verifyLogin(Customer c);
+	public Integer doLogin(String email, String password);
 
 	public Customer addCustomer(Customer c);
 
 	public Customer updateCustomer(Customer c);
 
-	public Iterable<Customer> getAllCustomers(Pageable pageable);
+	public List<Customer> getCustomers(int pageNumber, int pageSize);
 
 	public Customer getCustomerById(int custId);
 }

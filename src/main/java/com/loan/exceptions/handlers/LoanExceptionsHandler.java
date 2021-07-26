@@ -19,6 +19,7 @@ public class LoanExceptionsHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(LoanNotFoundException.class)
 	public ResponseEntity<Object> handleLoanNotFoundException(LoanNotFoundException ex, WebRequest request) {
+		logger.error(ex.getMessage(), ex);
 		Map<String, Object> body = new LinkedHashMap<>();
 		body.put("timestamp", LocalDateTime.now());
 		body.put("message", ex.getMessage());
